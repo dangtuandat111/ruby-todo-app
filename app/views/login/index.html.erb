@@ -1,0 +1,6 @@
+login/index
+<%= @users.each do |user| %>
+  Name: <% user.username %><br>
+  Email: <%= user.email %><br>
+  <hr>
+<% end %>

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # Testing route
   get 'hello', to: 'application#hello'
 
-  root 'login#index'
+  root 'login/login#index'
 
   resources :login, to: 'login/login#index', only: [:index, :create], path_names: { index: "getLogin", create: "postLogin"}#, as: "sample"
   resources :photos#, path_names: { new: "make", edit: "change" }
