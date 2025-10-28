@@ -28,7 +28,12 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+# Ignore vendor folder
+/vendor/bundle
+/vendor/
+
 /public/assets
+/sample_public/template
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
