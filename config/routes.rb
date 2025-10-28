@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :photos#, path_names: { new: "make", edit: "change" }
 
   get 'hello', to: 'application#hello'
+
+  get 'sample_list', to: 'login/login#sample_list'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -21,4 +23,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  namespace :api do
+    namespace :v1 do
+      resources :sessions, only: [:create]
+    end
+  end
 end

@@ -21,8 +21,8 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="<%= content_for(:body_class) %>">
+    <main>
       <%= yield %>
     </main>
   </body>

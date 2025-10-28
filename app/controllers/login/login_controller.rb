@@ -15,5 +15,9 @@ module Login
     def create
       render html: "processing login"
     end
+
+    def sample_list
+      render "login/sample_list"
+    end
   end
 end
