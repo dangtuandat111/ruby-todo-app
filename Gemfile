@@ -75,4 +75,6 @@ gem "tailwindcss-rails", "~> 4.3"
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem "shakapacker"
+gem 'jwt'
+
+gem "jsbundling-rails"

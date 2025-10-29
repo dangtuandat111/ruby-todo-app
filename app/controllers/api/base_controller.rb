@@ -1,7 +1,7 @@
 module Api
   module V1
     class BaseController < ActionController::API
-      before_action :authenticate_request!
+      before_action :authenticate_request!, except: [:create]
       attr_reader :current_user
 
       private
