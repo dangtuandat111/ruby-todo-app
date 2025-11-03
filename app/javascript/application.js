@@ -2,7 +2,8 @@
 import $ from "jquery";
 
 export async function login(email, password) {
-    const res = await fetch('/api/v1/login', {
+    const url = $('.form-action').attr('action-href');
+    const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

@@ -15,7 +15,7 @@ module Login
     end
 
     def create
-      render html: "processing login"
+      @params = params.permit(:username, :password)
     end
 
     def sample_list

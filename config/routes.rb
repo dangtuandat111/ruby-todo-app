@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   root 'login/login#index'
 
-  resources :login, to: 'login/login#index', only: [:index, :create], path_names: { index: "getLogin", create: "postLogin"}#, as: "sample"
+  # resources :login, to: 'login/login#index', only: [:index, :create], path_names: { index: "getLogin", create: "postLogin"}#, as: "sample"
+  get :login, to: 'login/login#index'
   resources :photos#, path_names: { new: "make", edit: "change" }
 
   get 'hello', to: 'application#hello'
@@ -24,8 +25,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   namespace :api do
-    namespace :v1 do
-      resources :sessions, only: [:create]
-    end
+    post :login, to: 'login#postLogin'
+    delete :logout, to: 'login#destroy'
   end
 end
