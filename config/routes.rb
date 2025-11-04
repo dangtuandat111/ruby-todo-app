@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   root 'login/login#index'
 
-  # resources :login, to: 'login/login#index', only: [:index, :create], path_names: { index: "getLogin", create: "postLogin"}#, as: "sample"
   get :login, to: 'login/login#index'
-  resources :photos#, path_names: { new: "make", edit: "change" }
+  # resources :login, to: 'login/login#index', only: [:index, :create], path_names: { index: "getLogin", create: "postLogin"}#, as: "sample"
+  # resources :photos#, path_names: { new: "make", edit: "change" }
 
   get 'hello', to: 'application#hello'
 

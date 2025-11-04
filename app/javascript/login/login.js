@@ -13,6 +13,7 @@ $("#submitButton").on("click", async function (e) {
 
     try {
         const data = await login(email, password);
+        location.reload();
         alert("Login thành công!");
     } catch (err) {
         alert(err.error || "Đăng nhập thất bại");

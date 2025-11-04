@@ -1,5 +1,6 @@
 module Api
     class LoginController < ActionController::API
+        include ActionController::Cookies
         def postLogin
             @params = params.permit(:username, :password)
             # @user = User.all
@@ -12,7 +13,13 @@ module Api
             user = User.find_by(email: params[:email].to_s)
             if user&.authenticate(params[:password])
               token = JsonWebToken.encode(user_id: user.id)
-              render json: { token: token, user: { id: user.id, email: user.email } }, status: :created
+              cookies.signed[:jwt] = {
+                value: token,
+                httponly: true,
+                secure: Rails.env.production?,
+                expires: 1.day.from_now
+              }
+              render json: { message: "Logged in" }
             else
               render json: { error: 'Invalid credentials' }, status: :unauthorized
             end

@@ -1,17 +1,23 @@
 # For:  login/login#index
 module Login
   class LoginController < ApplicationController
-    skip_before_action :authenticate_request!
+    skip_before_action :authenticate_request
 
     # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
     allow_browser versions: :modern
 
     def index
-      @greeting = "Welcome to the Login Page"
-      @users = User.all
+      authenticate_request
 
-      # Default: looks for app/views/login/login/index.html.erb
-      render "login/index"
+      if (@current_user)
+        render template: "/main" and return
+      else
+        render "login/index" and return
+      end
+    end
+
+    def authenticate_request
+      super
     end
 
     def create
