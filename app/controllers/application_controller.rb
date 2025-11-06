@@ -9,28 +9,32 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_request
-    # Ưu tiên lấy từ cookie
     token = cookies.signed[:jwt]
 
-    # Nếu không có trong cookie thì thử lấy từ header
     if token.blank?
       header = request.headers["Authorization"]
       token = header.split(" ").last if header.present?
     end
 
-    # Nếu vẫn không có token thì reject luôn
     if token.blank?
-      render json: { error: "Missing token" }, status: :unauthorized and return
+      # render json: { error: "Missing token" }, status: :unauthorized
+      return
     end
 
     begin
       decoded = JWT.decode(token, Rails.application.secret_key_base, true, algorithm: "HS256")
       @current_user = User.find(decoded[0]["user_id"])
+      return
     rescue JWT::ExpiredSignature
-      render json: { error: "Token has expired" }, status: :unauthorized and return
+      Rails.logger.warn "Token has expired"
+      @current_user = nil
+      # render json: { error: "Token has expired" }, status: :unauthorized
+      return
     rescue JWT::DecodeError, ActiveRecord::RecordNotFound
-      render json: { error: "Invalid token" }, status: :unauthorized and return
+      Rails.logger.warn "Invalid token"
+      @current_user = nil
+      # render json: { error: "Invalid token" }, status: :unauthorized
+      return
     end
   end
-
 end

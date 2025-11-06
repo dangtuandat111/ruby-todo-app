@@ -10,9 +10,9 @@ module Login
       authenticate_request
 
       if (@current_user)
-        render template: "/main" and return
+        render template: "/main"
       else
-        render "login/index" and return
+        render "login/index"
       end
     end
 

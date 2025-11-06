@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Todo" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+    <head>
+        <title><%= content_for(:title) || "Todo" %></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <%= csrf_meta_tags %>
+        <%= csp_meta_tag %>
 
-    <%= yield :head %>
+        <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+        <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+        <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+        <link rel="icon" href="/icon.png" type="image/png">
+        <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "js/application", "data-turbo-track": "reload", type: "module" %>
-    <%= yield :javascript %>
-  </head>
+        <%# Includes all stylesheet files in app/assets/stylesheets %>
+        <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+        <%= javascript_include_tag "js/application", "data-turbo-track": "reload", type: "module" %>
+        <%= yield :javascript %>
+    </head>
 
-  <body class="<%= content_for(:body_class) %>">
-    <main class="container mx-auto px-5 flex m-auto h-full">
-      <%= yield %>
-    </main>
-  </body>
+    <body class="<%= content_for(:body_class) %>">
+        <main class="<%= content_for(:main_class) %>">
+            <%= yield %>
+
+            <!-- TODO: Include many other toast here -->
+            <div class="toast flex items-center w-full max-w-xs p-4 space-x-4 rtl:space-x-reverse text-gray-500 bg-white divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow-sm dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800" role="alert">
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-500 rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 17 8 2L9 1 1 19l8-2Zm0 0V9"/>
+                </svg>
+                <div class="ps-4 text-sm font-normal">Message sent successfully.</div>
+            </div>
+        </main>
+    </body>
 </html>
