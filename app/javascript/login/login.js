@@ -1,8 +1,8 @@
 import $ from "jquery";
 import * as constants from "../common/constant";
+import {login, showToast} from "../application";
 
-import { login, showToast } from "../application";
-import {validateMessage} from "../common/constant"; // import hàm login từ application.js
+let checkboxToggle = false;
 
 $(document).ready(function () {
 });
@@ -12,19 +12,23 @@ $("#submitButton").on("click", async function (e) {
 
     const email = $("#email").val();
     const password = $("#password").val();
-
     try {
         if (checkBeforeSubmit(email, password)) {
-            alert(1);
-            let data = await login(email, password);
+            let data = await log    in(email, password, checkboxToggle);
             console.log(data);
             location.reload();
-            return;
         }
-        showToast(constants.toastType.ERROR);
     } catch (err) {
-        alert(err.error || "Đăng nhập thất bại");
+        console.log(err);
+        alert(err.error || "Đăng nhập thất bạisss");
     }
+});
+
+$('input[id="checkboxLabelOne"]').on("change", function (e) {
+    checkboxToggle = $(this).is(":checked");
+    console.log("Checkbox toggled:", checkboxToggle);
+
+    $(this).closest('label').find('span').toggleClass('opacity-0', !checkboxToggle);
 });
 
 function validateEmail(email) {

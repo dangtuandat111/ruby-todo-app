@@ -2,7 +2,7 @@ module Api
     class LoginController < ActionController::API
         include ActionController::Cookies
         def postLogin
-            @params = params.permit(:username, :password)
+            @params = params.permit(:username, :password, :remmeberMe)
             # @user = User.all
             #
             # # print all users
@@ -12,14 +12,21 @@ module Api
 
             user = User.find_by(email: params[:email].to_s)
             if user&.authenticate(params[:password])
-              token = JsonWebToken.encode(user_id: user.id)
-              cookies.signed[:jwt] = {
-                value: token,
-                httponly: true,
-                secure: Rails.env.production?,
-                expires: 1.day.from_now
-              }
-              render json: { message: "Logged in" }
+                token = JsonWebToken.encode(user_id: user.id)
+
+                if ActiveModel::Type::Boolean.new.cast(@params[:remember_me])
+                  expires = 30.days.from_now
+                else
+                  expires = nil  # session cookie (mất khi đóng trình duyệt)
+                end
+
+                cookies.signed[:jwt] = {
+                  value: token,
+                  httponly: true,
+                  secure: Rails.env.production?,
+                  expires: expires
+                }
+                render json: { message: "Logged in" }
             else
               render json: { error: 'Invalid credentials' }, status: :unauthorized
             end

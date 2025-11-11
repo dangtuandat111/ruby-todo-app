@@ -4,20 +4,22 @@ import * as constants from "./common/constant";
 
 // Show toast
 export function showToast (toastType, message = '') {
+    console.trace();
     let body = $('body');
     // TODO: Update for many toastType
     switch (toastType) {
         case constants.toastType.ERROR:
-            let errorToast = body.find('.toast[role="alert"]').clone();
-            body.append(errorToast)
+            let errorToast = body.find('.toast[role="alert"]').first().clone().removeClass('display-none');
+            errorToast.find('.toast-message').text(message);
+            body.find('.toast-notification').append(errorToast)
             // Append in body
             errorToast.append(errorToast).fadeIn().delay(3000).fadeOut(500, function () {
-                errorToast.remove()
+                // errorToast.remove()
             });
 
-            toast.addClass('error').text(message).fadeIn().delay(3000).fadeOut();
             break;
         case constants.toastType.SUCCESS:
+            // TODO: Update success toast
             let successToast = body.find('.toast[role="success"]').clone();
 
             body.append(successToast)
@@ -32,12 +34,12 @@ export function showToast (toastType, message = '') {
     }
 }
 
-export async function login(email, password) {
+export async function login(email, password, rememberMe) {
     const url = $('.form-action').attr('action-href');
     const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, rememberMe })
     });
     if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'Login failed' }));
